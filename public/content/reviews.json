@@ -1,0 +1,67 @@
+{
+  "reviews": [
+    {
+      "name": "Carlos M.",
+      "location": "Madrid",
+      "rating": 5,
+      "text": "Excelente servicio de retirada de uralita. Profesionales, puntuales y con toda la documentacion en regla. Nos entregaron el certificado de gestion de residuos en pocos dias.",
+      "date": "Hace 2 meses"
+    },
+    {
+      "name": "Maria L.",
+      "location": "Toledo",
+      "rating": 5,
+      "text": "Contratamos a FRAMA para retirar el tejado de fibrocemento de nuestra nave. El equipo fue muy profesional, cumplieron con todos los plazos y nos asesoraron en todo momento.",
+      "date": "Hace 3 meses"
+    },
+    {
+      "name": "Javier R.",
+      "location": "Guadalajara",
+      "rating": 5,
+      "text": "Muy contentos con el trabajo realizado. Retiraron las bajantes de amianto de nuestra comunidad de vecinos sin ningun problema. Precio competitivo y gran profesionalidad.",
+      "date": "Hace 1 mes"
+    },
+    {
+      "name": "Ana P.",
+      "location": "Segovia",
+      "rating": 5,
+      "text": "Empresa seria y responsable. Gestionaron todos los permisos y la retirada de las chimeneas de fibrocemento fue rapida y limpia. Totalmente recomendable.",
+      "date": "Hace 4 meses"
+    },
+    {
+      "name": "Fernando G.",
+      "location": "Avila",
+      "rating": 5,
+      "text": "Desde el primer contacto fueron muy atentos. El presupuesto fue claro y sin sorpresas. La retirada de uralita se hizo en tiempo record. Muy satisfecho.",
+      "date": "Hace 2 meses"
+    },
+    {
+      "name": "Laura S.",
+      "location": "Cuenca",
+      "rating": 4,
+      "text": "Buen servicio en general. Retiraron la cubierta de amianto de nuestra vivienda y se encargaron de todo el papeleo. El resultado fue impecable.",
+      "date": "Hace 5 meses"
+    },
+    {
+      "name": "Pedro A.",
+      "location": "Madrid",
+      "rating": 5,
+      "text": "Llevabamos tiempo buscando una empresa autorizada y dimos con FRAMA. Nos resolvieron todo de forma rapida: permisos, retirada y certificado. 100% recomendados.",
+      "date": "Hace 1 mes"
+    },
+    {
+      "name": "Isabel T.",
+      "location": "Toledo",
+      "rating": 5,
+      "text": "Necesitabamos retirar uralita de una nave agricola y FRAMA nos dio el mejor presupuesto. El trabajo fue impecable y muy limpio. Repetiremos seguro.",
+      "date": "Hace 3 meses"
+    },
+    {
+      "name": "Roberto D.",
+      "location": "Guadalajara",
+      "rating": 5,
+      "text": "Profesionales de principio a fin. Se encargaron de toda la gestion con el ayuntamiento y la retirada fue rapidisima. El trato humano es lo que mas destaco.",
+      "date": "Hace 6 meses"
+    }
+  ]
+}

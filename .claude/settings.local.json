@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git clone:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAñadir Decap CMS y mejoras\n\n- Panel de administración en /admin\n- Posts del blog en JSON editable\n- Switch antes/después mejorado\n- Formulario preparado para n8n\n- Configuración SEO\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git config:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(ls:*)",
+      "Bash(git pull:*)"
+    ]
+  }
+}

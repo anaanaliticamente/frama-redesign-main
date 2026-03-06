@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 40 10% 8%;
+
+    --card: 45 30% 97%;
+    --card-foreground: 40 10% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 40 10% 8%;
+
+    --primary: 0 75% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 60% 40%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 10% 94%;
+    --muted-foreground: 0 5% 45%;
+
+    --accent: 0 60% 93%;
+    --accent-foreground: 0 10% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 8% 88%;
+    --input: 0 8% 85%;
+    --ring: 0 75% 50%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 0 75% 50%;
+
+    --brand-dark: 0 10% 8%;
+    --brand-dark-foreground: 0 10% 95%;
+    --brand-warm: 0 75% 50%;
+    --brand-red: 0 75% 50%;
+    --brand-red-foreground: 0 0% 100%;
+    --brand-yellow: 0 75% 50%;
+  }
+
+  .dark {
+    --background: 0 5% 7%;
+    --foreground: 0 10% 93%;
+
+    --card: 0 5% 11%;
+    --card-foreground: 0 10% 93%;
+
+    --popover: 0 5% 11%;
+    --popover-foreground: 0 10% 93%;
+
+    --primary: 0 75% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 60% 40%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 5% 16%;
+    --muted-foreground: 0 5% 55%;
+
+    --accent: 0 5% 14%;
+    --accent-foreground: 0 10% 93%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 5% 16%;
+    --input: 0 5% 16%;
+    --ring: 0 75% 50%;
+
+    --brand-dark: 0 5% 5%;
+    --brand-dark-foreground: 0 5% 93%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Space Grotesk', sans-serif;
+    transition: background-color 0.4s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Smooth theme color transitions */
+body,
+section,
+footer,
+nav,
+div,
+a,
+p,
+span,
+h1, h2, h3, h4 {
+  transition: background-color 0.4s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Float animation for decorative elements */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 5px hsl(0 75% 50% / 0.2); }
+  50% { box-shadow: 0 0 20px hsl(0 75% 50% / 0.4); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}

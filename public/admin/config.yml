@@ -1,0 +1,82 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/images/blog"
+public_folder: "/images/blog"
+
+locale: "es"
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  # ── Blog (carpeta con archivos markdown individuales) ──
+  - name: "blog"
+    label: "Blog"
+    label_singular: "Articulo"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    sortable_fields: ["date", "title"]
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Slug (URL)", name: "slug", widget: "string", hint: "URL del articulo, ej: retirada-uralita-madrid" }
+      - { label: "Titulo", name: "title", widget: "string" }
+      - { label: "Fecha", name: "date", widget: "string", hint: "Formato: 2 de febrero de 2022" }
+      - { label: "Extracto", name: "excerpt", widget: "text", hint: "Resumen corto del articulo (1-2 frases)" }
+      - label: "Categoria"
+        name: "category"
+        widget: "select"
+        options:
+          - "Amianto"
+          - "Uralita"
+          - "Empresa"
+          - "Servicios"
+          - "Informacion"
+          - "Normativa"
+          - "Salud"
+      - { label: "Imagen destacada", name: "image", widget: "image" }
+      - { label: "Tiempo de lectura", name: "readTime", widget: "string", default: "5 min" }
+      - { label: "Contenido", name: "body", widget: "markdown", hint: "Usa ## para encabezados y - para listas" }
+
+  # ── Resenas de Google ──
+  - name: "reviews"
+    label: "Resenas"
+    files:
+      - name: "reviews"
+        label: "Resenas de Google"
+        file: "public/content/reviews.json"
+        fields:
+          - name: "reviews"
+            label: "Resenas"
+            widget: "list"
+            summary: "{{fields.name}} ({{fields.location}}) - {{fields.rating}} estrellas"
+            fields:
+              - { label: "Nombre", name: "name", widget: "string" }
+              - { label: "Ubicacion", name: "location", widget: "select", options: ["Madrid", "Toledo", "Avila", "Guadalajara", "Segovia", "Cuenca"] }
+              - { label: "Puntuacion", name: "rating", widget: "number", min: 1, max: 5, value_type: "int" }
+              - { label: "Comentario", name: "text", widget: "text" }
+              - { label: "Fecha", name: "date", widget: "string", hint: "Ej: Hace 2 meses" }
+
+  # ── Configuracion del sitio ──
+  - name: "settings"
+    label: "Configuracion"
+    files:
+      - name: "general"
+        label: "Datos generales"
+        file: "public/content/settings.json"
+        fields:
+          - { label: "Titulo del sitio", name: "siteTitle", widget: "string" }
+          - { label: "Descripcion SEO", name: "siteDescription", widget: "text" }
+          - { label: "Telefono", name: "phone", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "WhatsApp (solo numeros)", name: "whatsapp", widget: "string" }
+          - { label: "Horario", name: "schedule", widget: "string" }
+          - { label: "Numero RERA", name: "rera", widget: "string" }
+          - { label: "Numero NIMA", name: "nima", widget: "string" }
+          - { label: "Seguro RC", name: "insurance", widget: "string" }
