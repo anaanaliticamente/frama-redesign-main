@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, Quote, ChevronLeft, ChevronRight, Send, CheckCircle, Loader2 } from "lucide-react";
 import reviewsJson from "../../public/content/reviews.json";
 
 interface ReviewData {
@@ -43,6 +43,207 @@ const StarRating = ({ rating }: { rating: number }) => (
   </div>
 );
 
+const InteractiveStarRating = ({ rating, onRate }: { rating: number; onRate: (r: number) => void }) => (
+  <div className="flex gap-1">
+    {Array.from({ length: 5 }, (_, i) => (
+      <button
+        key={i}
+        type="button"
+        onClick={() => onRate(i + 1)}
+        className="transition-transform hover:scale-125 active:scale-95"
+      >
+        <Star
+          className={`w-7 h-7 transition-colors ${i < rating ? "fill-amber-400 text-amber-400" : "fill-muted/20 text-muted/30 hover:fill-amber-200 hover:text-amber-300"}`}
+        />
+      </button>
+    ))}
+  </div>
+);
+
+const MAX_TEXT_LENGTH = 150;
+
+const ReviewCard = ({ review }: { review: Review }) => {
+  const [expanded, setExpanded] = useState(false);
+  const isLong = review.text.length > MAX_TEXT_LENGTH;
+  const displayText = !isLong || expanded ? review.text : review.text.slice(0, MAX_TEXT_LENGTH).trimEnd() + "...";
+
+  return (
+    <div className="group relative bg-card border border-border rounded-3xl p-5 sm:p-7 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col h-full">
+      {/* Gradient accent at top */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+      {/* Background glow on hover */}
+      <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+      {/* Quote watermark */}
+      <div className="absolute -top-2 -right-2 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity duration-500 group-hover:rotate-6 transform">
+        <Quote className="w-24 h-24 text-foreground" />
+      </div>
+
+      <div className="relative z-10 flex flex-col flex-1">
+        {/* Top: Stars + Date */}
+        <div className="flex items-center justify-between mb-5">
+          <StarRating rating={review.rating} />
+          <span className="text-[11px] text-muted-foreground/40 font-medium">{review.date}</span>
+        </div>
+
+        {/* Comment — flex-1 makes all cards push the author section to the same position */}
+        <div className="flex-1 mb-6">
+          <p className="text-[15px] text-foreground/80 leading-relaxed">
+            &ldquo;{displayText}&rdquo;
+          </p>
+          {isLong && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="text-primary text-xs font-semibold mt-2 hover:underline"
+            >
+              {expanded ? "Ver menos" : "Leer más"}
+            </button>
+          )}
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-border mb-5 group-hover:bg-primary/20 transition-colors duration-500" />
+
+        {/* Author */}
+        <div className="flex items-center gap-3">
+          <div className={`w-11 h-11 rounded-full bg-gradient-to-br ${review.color} flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+            <span className="font-display text-xs text-white font-bold tracking-wide">
+              {review.initials}
+            </span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-foreground truncate">{review.name}</p>
+            <p className="text-xs text-muted-foreground/50">Cliente verificado</p>
+          </div>
+          <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center shrink-0">
+            <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const WEBHOOK_URL = "https://tu-n8n.com/webhook/tu-id-resenas";
+
+const ReviewForm = () => {
+  const [name, setName] = useState("");
+  const [rating, setRating] = useState(0);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (rating === 0) {
+      setError("Por favor, selecciona una valoración.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          rating,
+          text: text.trim(),
+          date: new Date().toLocaleDateString("es-ES", { month: "long", year: "numeric" }),
+          fecha: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) throw new Error("Error al enviar");
+      setSuccess(true);
+    } catch {
+      setError("No se pudo enviar la reseña. Inténtalo de nuevo más tarde.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (success) {
+    return (
+      <div className="bg-card border border-border rounded-3xl p-8 sm:p-10 text-center">
+        <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-5">
+          <CheckCircle className="w-8 h-8 text-green-500" />
+        </div>
+        <h3 className="font-display text-xl text-foreground mb-2">¡Gracias por tu opinión!</h3>
+        <p className="text-sm text-muted-foreground">Tu reseña ha sido enviada y será publicada próximamente.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="bg-card border border-border rounded-3xl p-6 sm:p-8">
+      <h3 className="font-display text-xl text-foreground mb-1">Deja tu opinión</h3>
+      <p className="text-sm text-muted-foreground mb-6">¿Has trabajado con nosotros? Nos encantaría conocer tu experiencia.</p>
+
+      <div className="space-y-5">
+        {/* Name */}
+        <div>
+          <label htmlFor="review-name" className="block text-sm font-medium text-foreground mb-1.5">Nombre</label>
+          <input
+            id="review-name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Tu nombre"
+            className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+          />
+        </div>
+
+        {/* Rating */}
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Valoración</label>
+          <InteractiveStarRating rating={rating} onRate={setRating} />
+        </div>
+
+        {/* Text */}
+        <div>
+          <label htmlFor="review-text" className="block text-sm font-medium text-foreground mb-1.5">Tu experiencia</label>
+          <textarea
+            id="review-text"
+            required
+            rows={4}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Cuéntanos cómo fue tu experiencia con nuestro servicio..."
+            className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all resize-none"
+          />
+        </div>
+
+        {error && <p className="text-sm text-red-500">{error}</p>}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold py-3 px-6 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all duration-200 disabled:opacity-60"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Enviando...
+            </>
+          ) : (
+            <>
+              <Send className="w-4 h-4" />
+              Enviar reseña
+            </>
+          )}
+        </button>
+      </div>
+    </form>
+  );
+};
+
 const VISIBLE_DESKTOP = 3;
 const AUTO_INTERVAL = 5000;
 
@@ -52,6 +253,7 @@ const Reviews = () => {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [animating, setAnimating] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const reviews = useMemo(() => {
     const arr = Array.isArray(reviewsJson) ? reviewsJson : (reviewsJson as { reviews: ReviewData[] }).reviews;
     return arr.map(enrichReview);
@@ -173,55 +375,7 @@ const Reviews = () => {
               }`}
             >
               {visibleReviews.map((review, i) => (
-                <div
-                  key={`${current}-${i}`}
-                  className="group relative bg-card border border-border rounded-3xl p-5 sm:p-7 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2 transition-all duration-500 overflow-hidden"
-                >
-                  {/* Gradient accent at top */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                  {/* Background glow on hover */}
-                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-                  {/* Quote watermark */}
-                  <div className="absolute -top-2 -right-2 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity duration-500 group-hover:rotate-6 transform">
-                    <Quote className="w-24 h-24 text-foreground" />
-                  </div>
-
-                  <div className="relative z-10">
-                    {/* Top: Stars + Date */}
-                    <div className="flex items-center justify-between mb-5">
-                      <StarRating rating={review.rating} />
-                      <span className="text-[11px] text-muted-foreground/40 font-medium">{review.date}</span>
-                    </div>
-
-                    {/* Comment */}
-                    <p className="text-[15px] text-foreground/80 leading-relaxed mb-6 min-h-[5rem]">
-                      &ldquo;{review.text}&rdquo;
-                    </p>
-
-                    {/* Divider */}
-                    <div className="h-px bg-border mb-5 group-hover:bg-primary/20 transition-colors duration-500" />
-
-                    {/* Author */}
-                    <div className="flex items-center gap-3">
-                      <div className={`w-11 h-11 rounded-full bg-gradient-to-br ${review.color} flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                        <span className="font-display text-xs text-white font-bold tracking-wide">
-                          {review.initials}
-                        </span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-foreground truncate">{review.name}</p>
-                        <p className="text-xs text-muted-foreground/50">Cliente verificado</p>
-                      </div>
-                      <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center shrink-0">
-                        <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ReviewCard key={`${current}-${i}`} review={review} />
               ))}
             </div>
           </div>
@@ -278,6 +432,27 @@ const Reviews = () => {
               {current + 1} / {totalPages}
             </span>
           </div>
+        </div>
+
+        {/* Write a review CTA + Form */}
+        <div className={`mt-16 max-w-xl mx-auto transition-all duration-700 delay-300 ${sectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          {!showForm ? (
+            <div className="text-center">
+              <button
+                onClick={() => setShowForm(true)}
+                className="inline-flex items-center gap-2 bg-card border border-border rounded-2xl px-6 py-4 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 group"
+              >
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-muted/20 text-muted/30 group-hover:fill-amber-400 group-hover:text-amber-400 transition-colors duration-300" style={{ transitionDelay: `${i * 50}ms` }} />
+                  ))}
+                </div>
+                <span className="text-sm font-semibold text-foreground">Escribe tu opinión</span>
+              </button>
+            </div>
+          ) : (
+            <ReviewForm />
+          )}
         </div>
       </div>
     </section>
