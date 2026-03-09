@@ -1,6 +1,6 @@
 ---
 slug: empresa-retirada-uralita-avila
-title: Empresa de retirada de uralita en Avila, editado
+title: Empresa de retirada de uralita en Avila
 date: 19 de noviembre de 2021
 excerpt: La retirada de uralita o amianto de tejados y cubiertas requiere
   empresas especializadas autorizadas. El amianto se compone de placas de
