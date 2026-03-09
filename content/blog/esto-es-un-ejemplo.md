@@ -1,6 +1,6 @@
 ---
 slug: esto-es-un-ejemplo
-title: Esto es un ejemplo
+title: Esto es un ejemplo, editarlo
 date: 09 de marzo de 2026
 excerpt: resumen
 category: Salud
