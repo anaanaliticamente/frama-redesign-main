@@ -1,67 +1,34 @@
 {
   "reviews": [
     {
-      "name": "Carlos M.",
-      "location": "Madrid",
+      "name": "Jorge",
       "rating": 5,
-      "text": "Excelente servicio de retirada de uralita. Profesionales, puntuales y con toda la documentacion en regla. Nos entregaron el certificado de gestion de residuos en pocos dias.",
-      "date": "Hace 2 meses"
+      "text": "Muy contento con el servicio, muy profesionales y soluciones muy rápidas.",
+      "date": "Enero 2025"
     },
     {
-      "name": "Maria L.",
-      "location": "Toledo",
+      "name": "Antonio",
       "rating": 5,
-      "text": "Contratamos a FRAMA para retirar el tejado de fibrocemento de nuestra nave. El equipo fue muy profesional, cumplieron con todos los plazos y nos asesoraron en todo momento.",
-      "date": "Hace 3 meses"
+      "text": "Recientemente contraté a la empresa para reparar una filtración en mi hogar y quedé muy satisfecho con su servicio. El equipo que vino a realizar la reparación fue puntual, respetuoso y trabajó con gran eficiencia. Además, se tomaron el tiempo para explicarme cada paso del proceso y me dieron consejos útiles para evitar problemas futuros. Estoy muy contento con el resultado final; no solo solucionaron la filtración, sino que también dejaron el área de trabajo limpia y ordenada. Sin duda, volveré a contratar sus servicios en el futuro.",
+      "date": "Enero 2025"
     },
     {
-      "name": "Javier R.",
-      "location": "Guadalajara",
+      "name": "Carmen Pérez",
       "rating": 5,
-      "text": "Muy contentos con el trabajo realizado. Retiraron las bajantes de amianto de nuestra comunidad de vecinos sin ningun problema. Precio competitivo y gran profesionalidad.",
-      "date": "Hace 1 mes"
+      "text": "Estoy muy complacida con el trabajo de rehabilitación del tejado. El equipo fue profesional, puntual y detallista. La comunicación fue excelente y el resultado final superó mis expectativas. Muy complacida!!!",
+      "date": "Noviembre 2024"
     },
     {
-      "name": "Ana P.",
-      "location": "Segovia",
+      "name": "Pedro",
       "rating": 5,
-      "text": "Empresa seria y responsable. Gestionaron todos los permisos y la retirada de las chimeneas de fibrocemento fue rapida y limpia. Totalmente recomendable.",
-      "date": "Hace 4 meses"
+      "text": "Teníamos una gotera y después de llamarlos nos pasaron un presupuesto enseguida y una vez aceptado se pusieron manos a la obra. La gotera ha quedado perfecta. Os recomiendo 100% sus servicios.",
+      "date": "Octubre 2024"
     },
     {
-      "name": "Fernando G.",
-      "location": "Avila",
+      "name": "Santiago Recio",
       "rating": 5,
-      "text": "Desde el primer contacto fueron muy atentos. El presupuesto fue claro y sin sorpresas. La retirada de uralita se hizo en tiempo record. Muy satisfecho.",
-      "date": "Hace 2 meses"
-    },
-    {
-      "name": "Laura S.",
-      "location": "Cuenca",
-      "rating": 4,
-      "text": "Buen servicio en general. Retiraron la cubierta de amianto de nuestra vivienda y se encargaron de todo el papeleo. El resultado fue impecable.",
-      "date": "Hace 5 meses"
-    },
-    {
-      "name": "Pedro A.",
-      "location": "Madrid",
-      "rating": 5,
-      "text": "Llevabamos tiempo buscando una empresa autorizada y dimos con FRAMA. Nos resolvieron todo de forma rapida: permisos, retirada y certificado. 100% recomendados.",
-      "date": "Hace 1 mes"
-    },
-    {
-      "name": "Isabel T.",
-      "location": "Toledo",
-      "rating": 5,
-      "text": "Necesitabamos retirar uralita de una nave agricola y FRAMA nos dio el mejor presupuesto. El trabajo fue impecable y muy limpio. Repetiremos seguro.",
-      "date": "Hace 3 meses"
-    },
-    {
-      "name": "Roberto D.",
-      "location": "Guadalajara",
-      "rating": 5,
-      "text": "Profesionales de principio a fin. Se encargaron de toda la gestion con el ayuntamiento y la retirada fue rapidisima. El trato humano es lo que mas destaco.",
-      "date": "Hace 6 meses"
+      "text": "Muy profesionales, amables y rápidos.",
+      "date": "Noviembre 2023"
     }
   ]
 }
