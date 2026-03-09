@@ -53,7 +53,7 @@ const InteractiveStarRating = ({ rating, onRate }: { rating: number; onRate: (r:
         className="transition-transform hover:scale-125 active:scale-95"
       >
         <Star
-          className={`w-7 h-7 transition-colors ${i < rating ? "fill-amber-400 text-amber-400" : "fill-muted/20 text-muted/30 hover:fill-amber-200 hover:text-amber-300"}`}
+          className={`w-7 h-7 transition-colors ${i < rating ? "fill-amber-400 text-amber-400" : "fill-transparent text-border stroke-[1.5] hover:fill-amber-100 hover:text-amber-300"}`}
         />
       </button>
     ))}
@@ -444,7 +444,7 @@ const Reviews = () => {
               >
                 <div className="flex gap-0.5">
                   {Array.from({ length: 5 }, (_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-muted/20 text-muted/30 group-hover:fill-amber-400 group-hover:text-amber-400 transition-colors duration-300" style={{ transitionDelay: `${i * 50}ms` }} />
+                    <Star key={i} className="w-4 h-4 fill-transparent text-border stroke-[1.5] group-hover:fill-amber-400 group-hover:text-amber-400 transition-colors duration-300" style={{ transitionDelay: `${i * 50}ms` }} />
                   ))}
                 </div>
                 <span className="text-sm font-semibold text-foreground">Escribe tu opinión</span>
