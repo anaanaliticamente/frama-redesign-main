@@ -1,6 +1,8 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: anaanaliticamente/frama-redesign-main
   branch: main
+  base_url: https://decap-oauth.netlify.app
 
 media_folder: "public/images/blog"
 public_folder: "/images/blog"
@@ -13,12 +15,13 @@ slug:
   sanitize_replacement: "-"
 
 collections:
-  # ── Blog (carpeta con archivos markdown individuales) ──
+  # ── Blog ──
   - name: "blog"
     label: "Blog"
     label_singular: "Articulo"
     folder: "content/blog"
     create: true
+    delete: true
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
@@ -44,24 +47,49 @@ collections:
       - { label: "Tiempo de lectura", name: "readTime", widget: "string", default: "5 min" }
       - { label: "Contenido", name: "body", widget: "markdown", hint: "Usa ## para encabezados y - para listas" }
 
-  # ── Resenas de Google ──
+  # ── Reseñas de clientes ──
   - name: "reviews"
-    label: "Resenas"
+    label: "Reseñas"
     files:
       - name: "reviews"
-        label: "Resenas de Google"
+        label: "Opiniones de clientes"
         file: "public/content/reviews.json"
         fields:
           - name: "reviews"
-            label: "Resenas"
+            label: "Reseñas"
             widget: "list"
-            summary: "{{fields.name}} ({{fields.location}}) - {{fields.rating}} estrellas"
+            summary: "{{fields.name}} - {{fields.rating}} estrellas"
             fields:
               - { label: "Nombre", name: "name", widget: "string" }
-              - { label: "Ubicacion", name: "location", widget: "select", options: ["Madrid", "Toledo", "Avila", "Guadalajara", "Segovia", "Cuenca"] }
               - { label: "Puntuacion", name: "rating", widget: "number", min: 1, max: 5, value_type: "int" }
               - { label: "Comentario", name: "text", widget: "text" }
-              - { label: "Fecha", name: "date", widget: "string", hint: "Ej: Hace 2 meses" }
+              - { label: "Fecha", name: "date", widget: "string", hint: "Ej: Enero 2025" }
+
+  # ── Pagina principal ──
+  - name: "pages"
+    label: "Paginas"
+    files:
+      - name: "home"
+        label: "Pagina principal"
+        file: "content/pages/home.json"
+        fields:
+          - { label: "Titulo Hero", name: "heroTitle", widget: "string" }
+          - { label: "Subtitulo Hero", name: "heroSubtitle", widget: "text" }
+          - { label: "Titulo Servicios", name: "servicesTitle", widget: "string" }
+          - { label: "Titulo Sobre nosotros", name: "aboutTitle", widget: "string" }
+          - { label: "Texto Sobre nosotros", name: "aboutText", widget: "text" }
+
+  # ── SEO global ──
+  - name: "seo"
+    label: "SEO"
+    files:
+      - name: "global"
+        label: "SEO Global"
+        file: "content/seo/global.json"
+        fields:
+          - { label: "Titulo del sitio", name: "siteTitle", widget: "string" }
+          - { label: "Descripcion", name: "siteDescription", widget: "text" }
+          - { label: "Palabras clave", name: "keywords", widget: "string" }
 
   # ── Configuracion del sitio ──
   - name: "settings"
