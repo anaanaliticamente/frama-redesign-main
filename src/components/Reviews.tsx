@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { Star, Quote, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+import reviewsJson from "../../public/content/reviews.json";
 
 interface ReviewData {
   name: string;
@@ -61,21 +62,9 @@ const Reviews = () => {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [animating, setAnimating] = useState(false);
-  const [reviews, setReviews] = useState<Review[]>([]);
-
-  useEffect(() => {
-    fetch("/content/reviews.json")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch reviews");
-        return res.json();
-      })
-      .then((data) => {
-        const arr = Array.isArray(data) ? data : data?.reviews;
-        if (Array.isArray(arr)) {
-          setReviews(arr.map(enrichReview));
-        }
-      })
-      .catch((err) => console.error("Reviews load error:", err));
+  const reviews = useMemo(() => {
+    const arr = Array.isArray(reviewsJson) ? reviewsJson : (reviewsJson as { reviews: ReviewData[] }).reviews;
+    return arr.map(enrichReview);
   }, []);
 
   const totalPages = Math.max(1, Math.ceil(reviews.length / VISIBLE_DESKTOP));
