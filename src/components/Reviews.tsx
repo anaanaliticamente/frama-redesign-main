@@ -129,7 +129,7 @@ const ReviewCard = ({ review }: { review: Review }) => {
 
 const WEBHOOK_URL = "https://tu-n8n.com/webhook/tu-id-resenas";
 
-const ReviewForm = () => {
+const ReviewForm = ({ onSubmit }: { onSubmit: (review: ReviewData) => void }) => {
   const [name, setName] = useState("");
   const [rating, setRating] = useState(0);
   const [text, setText] = useState("");
@@ -147,19 +147,26 @@ const ReviewForm = () => {
     setError("");
 
     try {
-      const response = await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          rating,
-          text: text.trim(),
-          date: new Date().toLocaleDateString("es-ES", { month: "long", year: "numeric" }),
-          fecha: new Date().toISOString(),
-        }),
-      });
+      const newReview: ReviewData = {
+        name: name.trim(),
+        rating,
+        text: text.trim(),
+        date: new Date().toLocaleDateString("es-ES", { month: "long", year: "numeric" }),
+      };
 
-      if (!response.ok) throw new Error("Error al enviar");
+      // TODO: Reemplazar con webhook real cuando esté listo
+      if (WEBHOOK_URL.includes("tu-n8n.com")) {
+        await new Promise((resolve) => setTimeout(resolve, 800));
+      } else {
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...newReview, fecha: new Date().toISOString() }),
+        });
+        if (!response.ok) throw new Error("Error al enviar");
+      }
+
+      onSubmit(newReview);
       setSuccess(true);
     } catch {
       setError("No se pudo enviar la reseña. Inténtalo de nuevo más tarde.");
@@ -254,12 +261,22 @@ const Reviews = () => {
   const [paused, setPaused] = useState(false);
   const [animating, setAnimating] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const reviews = useMemo(() => {
+  const [reviews, setReviews] = useState<Review[]>(() => {
     const arr = Array.isArray(reviewsJson) ? reviewsJson : (reviewsJson as { reviews: ReviewData[] }).reviews;
     return arr.map(enrichReview);
-  }, []);
+  });
 
   const totalPages = Math.max(1, Math.ceil(reviews.length / VISIBLE_DESKTOP));
+
+  const handleNewReview = useCallback((data: ReviewData) => {
+    setReviews((prev) => {
+      const enriched = enrichReview(data, prev.length);
+      const updated = [...prev, enriched];
+      const lastPage = Math.ceil(updated.length / VISIBLE_DESKTOP) - 1;
+      setTimeout(() => setCurrent(lastPage), 400);
+      return updated;
+    });
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -451,7 +468,7 @@ const Reviews = () => {
               </button>
             </div>
           ) : (
-            <ReviewForm />
+            <ReviewForm onSubmit={handleNewReview} />
           )}
         </div>
       </div>
