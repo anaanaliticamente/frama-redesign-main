@@ -65,12 +65,17 @@ const Reviews = () => {
 
   useEffect(() => {
     fetch("/content/reviews.json")
-      .then((res) => res.json())
-      .then((data: ReviewData[]) => {
-        const arr = Array.isArray(data) ? data : (data as { reviews: ReviewData[] }).reviews;
-        setReviews(arr.map(enrichReview));
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch reviews");
+        return res.json();
       })
-      .catch(() => {});
+      .then((data) => {
+        const arr = Array.isArray(data) ? data : data?.reviews;
+        if (Array.isArray(arr)) {
+          setReviews(arr.map(enrichReview));
+        }
+      })
+      .catch((err) => console.error("Reviews load error:", err));
   }, []);
 
   const totalPages = Math.max(1, Math.ceil(reviews.length / VISIBLE_DESKTOP));
