@@ -1,8 +1,14 @@
+# ─────────────────────────────────────────────
+# Backend: GitHub + Netlify Identity (temporal)
+# Para migrar a servidor propio, cambia a:
+#   base_url: https://tu-dominio.com
+#   auth_endpoint: oauth
+# y elimina la línea "site_domain"
+# ─────────────────────────────────────────────
 backend:
   name: github
   repo: anaanaliticamente/frama-redesign-main
   branch: main
-  base_url: https://decap-oauth.netlify.app
 
 media_folder: "public/images/blog"
 public_folder: "/images/blog"

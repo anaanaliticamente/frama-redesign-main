@@ -1,2 +1,6 @@
-/admin/* /admin/index.html 200
-/* /index.html 200
+# Decap CMS admin - servir archivos estáticos del admin
+/admin      /admin/index.html   200
+/admin/     /admin/index.html   200
+
+# SPA fallback - todo lo demás a React
+/*          /index.html         200

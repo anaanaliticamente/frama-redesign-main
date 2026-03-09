@@ -1,5 +1,20 @@
 [
   {
+    "slug": "esto-es-un-ejemplo",
+    "title": "Esto es un ejemplo, editarlo",
+    "date": "09 de marzo de 2026",
+    "excerpt": "resumen",
+    "category": "Salud",
+    "image": "/images/blog/aislamiento-termico.jpg",
+    "readTime": "5 min",
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "estamos probando de hacer un blog de edicion de ejemplo"
+      }
+    ]
+  },
+  {
     "slug": "especialista-retirada-amianto-madrid",
     "title": "Especialista en retirada de amianto en Madrid",
     "date": "30 de noviembre de 2021",
